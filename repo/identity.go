@@ -1,19 +1,19 @@
-package main
+package repo
 
-type identity struct {
+type Identity struct {
 	Name  string
 	Email string
 }
 
-func (i *identity) hasName() bool {
+func (i *Identity) hasName() bool {
 	return i.Name != ""
 }
 
-func (i *identity) hasEmail() bool {
+func (i *Identity) hasEmail() bool {
 	return i.Email != ""
 }
 
-func (i *identity) String() string {
+func (i *Identity) String() string {
 	str := ""
 	if i.hasName() {
 		str += "\tName: " + i.Name

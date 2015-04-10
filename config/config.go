@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"errors"
@@ -7,8 +7,9 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/mitchellh/go-homedir"
-	"gopkg.in/yaml.v2"
+	homedir "github.com/mitchellh/go-homedir"
+	"github.com/prydonius/karn/repo"
+	yaml "gopkg.in/yaml.v2"
 )
 
 const (
@@ -17,31 +18,30 @@ const (
 		" home directory?"
 )
 
-type config struct {
-	Dirs map[string]*identity
-}
+type Dirs map[string]*repo.Identity
 
-func (c *config) LoadConfiguration() error {
+func LoadConfiguration() (Dirs, error) {
 	file, err := homedir.Expand(CONFIG_FILE)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	source, err := ioutil.ReadFile(file)
 	if err != nil {
-		return errors.New(FILE_READ_ERR)
+		return nil, errors.New(FILE_READ_ERR)
 	}
 
-	err = yaml.Unmarshal(source, &c.Dirs)
+	dirs := make(Dirs)
+	err = yaml.Unmarshal(source, dirs)
 	if err != nil {
-		return err
+		return dirs, err
 	}
 
-	return nil
+	return dirs, nil
 }
 
-func (c *config) ConfiguredIdentity() (*identity, error) {
-	err := c.LoadConfiguration()
+func ConfiguredIdentity() (*repo.Identity, error) {
+	dirs, err := LoadConfiguration()
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *config) ConfiguredIdentity() (*identity, error) {
 		return nil, err
 	}
 
-	id, err := c.IdentityInDir(cwd)
+	id, err := IdentityInDir(cwd, dirs)
 	if err != nil {
 		return nil, err
 	}
@@ -59,16 +59,16 @@ func (c *config) ConfiguredIdentity() (*identity, error) {
 	return id, nil
 }
 
-func (c *config) IdentityInDir(path string) (*identity, error) {
+func IdentityInDir(path string, dirs Dirs) (*repo.Identity, error) {
 	for {
-		for dir, _ := range c.Dirs {
+		for dir, _ := range dirs {
 			verdict, err := regexp.MatchString(path+"/?", dir)
 			if err != nil {
 				return nil, err
 			}
 
 			if verdict {
-				return c.Dirs[dir], nil
+				return dirs[dir], nil
 			}
 		}
 
