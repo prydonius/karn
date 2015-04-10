@@ -1,0 +1,10 @@
+{
+	"ArtifactsDest": ".",
+	"OutPath": "karn",
+	"Tasks": [
+		"xc"
+	],
+	"Arch": "amd64",
+	"BuildConstraints": "darwin",
+	"ConfigVersion": "0.9"
+}
