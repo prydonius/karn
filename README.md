@@ -15,7 +15,7 @@ Head to the [releases](https://github.com/prydonius/karn/releases) page to downl
 ### Go
 You can install karn using Go with the following command:
 ```
-go get github.com/prydonius/karn
+go get github.com/prydonius/karn/cmd/karn
 ```
 
 ## Usage
