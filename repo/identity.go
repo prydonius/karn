@@ -13,6 +13,11 @@ func (i *Identity) hasEmail() bool {
 	return i.Email != ""
 }
 
+func (i *Identity) notEqual(j *Identity) bool {
+	return (i.hasName() && i.Name != j.Name) ||
+		(i.hasEmail() && i.Email != j.Email)
+}
+
 func (i *Identity) String() string {
 	str := ""
 	if i.hasName() {

@@ -36,15 +36,13 @@ func CurrentIdentity() (*Identity, error) {
 
 func SetIdentity(id *Identity) error {
 	if id.hasName() {
-		err := exec.Command("git", "config", "--local", "user.name", id.Name).Run()
-		if err != nil {
+		if err := exec.Command("git", "config", "--local", "user.name", id.Name).Run(); err != nil {
 			return err
 		}
 	}
 
 	if id.hasEmail() {
-		err := exec.Command("git", "config", "--local", "user.email", id.Email).Run()
-		if err != nil {
+		if err := exec.Command("git", "config", "--local", "user.email", id.Email).Run(); err != nil {
 			return err
 		}
 	}
@@ -58,14 +56,12 @@ func UpdateIdentity(id *Identity) (bool, error) {
 		return false, errors.New("Couldn't retrieve identity from Git repository.")
 	}
 
-	if (id.hasName() && id.Name != current.Name) ||
-		(id.hasEmail() && id.Email != current.Email) {
-		err = SetIdentity(id)
-		if err != nil {
+	if id.notEqual(current) {
+		if err = SetIdentity(id); err != nil {
 			return false, errors.New("Failed setting new identity.")
-		} else {
-			return true, nil
 		}
+
+		return true, nil
 	}
 	return false, nil
 }
