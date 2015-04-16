@@ -16,10 +16,10 @@ func (i *Identity) hasEmail() bool {
 func (i *Identity) String() string {
 	str := ""
 	if i.hasName() {
-		str += "\tName: " + i.Name
+		str += "  Name: " + i.Name + "\n"
 	}
 	if i.hasEmail() {
-		str += "\tEmail: " + i.Email
+		str += "  Email: " + i.Email
 	}
 	return str
 }
