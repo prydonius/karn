@@ -40,28 +40,23 @@ func GetConfig() (Dirs, error) {
 }
 
 func GetIdentity(path string, dirs Dirs) (*repo.Identity, error) {
-	for {
-		for dir, _ := range dirs {
-			verdict, err := regexp.MatchString(path+"/?", dir)
-			if err != nil {
-				return nil, err
-			}
-
-			if verdict {
-				return dirs[dir], nil
-			}
-		}
-
-		path, _ = filepath.Split(path)
-		length := len(path)
-
-		if length == 1 {
-			break
-		}
-
-		// Remove trailing slash
-		path = path[:length-1]
+	if len(path) == 1 {
+		return dirs[path], nil
 	}
 
-	return nil, nil
+	// Traverse directory -> id map from config
+	for dir, _ := range dirs {
+		// Expects the path to not have a trailing slash
+		match, err := regexp.MatchString("^"+path+"/?$", dir)
+		if err != nil {
+			return nil, err
+		}
+
+		if match {
+			return dirs[dir], nil
+		}
+	}
+
+	// No match, try parent directory
+	return GetIdentity(filepath.Dir(path), dirs)
 }
