@@ -3,7 +3,6 @@ package config
 import (
 	"errors"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"regexp"
 
@@ -20,7 +19,7 @@ const (
 
 type Dirs map[string]*repo.Identity
 
-func LoadConfiguration() (Dirs, error) {
+func GetConfig() (Dirs, error) {
 	file, err := homedir.Expand(CONFIG_FILE)
 	if err != nil {
 		return nil, err
@@ -40,26 +39,7 @@ func LoadConfiguration() (Dirs, error) {
 	return dirs, nil
 }
 
-func ConfiguredIdentity() (*repo.Identity, error) {
-	dirs, err := LoadConfiguration()
-	if err != nil {
-		return nil, err
-	}
-
-	cwd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	id, err := IdentityInDir(cwd, dirs)
-	if err != nil {
-		return nil, err
-	}
-
-	return id, nil
-}
-
-func IdentityInDir(path string, dirs Dirs) (*repo.Identity, error) {
+func GetIdentity(path string, dirs Dirs) (*repo.Identity, error) {
 	for {
 		for dir, _ := range dirs {
 			verdict, err := regexp.MatchString(path+"/?", dir)

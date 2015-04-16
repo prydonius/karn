@@ -3,6 +3,7 @@ package karn
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/prydonius/karn/config"
 	"github.com/prydonius/karn/repo"
@@ -13,10 +14,22 @@ func Update() {
 		log.Fatal("Not inside Git work tree")
 	}
 
-	id, err := config.ConfiguredIdentity()
+	dirs, err := config.GetConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Fatal("Could not get current working directory")
+	}
+
+	id, err := config.GetIdentity(cwd, dirs)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Don't bother updating if we don't have an identity for the current working dir
 	if id == nil {
 		return
 	}
