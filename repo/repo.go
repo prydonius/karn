@@ -6,10 +6,12 @@ import (
 	"strings"
 )
 
+const (
+	FAILED_UPDATE_ERR = "Failed setting new identity."
+)
+
 func IsInsideWorkTree() bool {
-	cmd := exec.Command("git", "rev-parse", "--is-inside-work-tree")
-	err := cmd.Run()
-	if err != nil {
+	if err := exec.Command("git", "rev-parse", "--is-inside-work-tree").Run(); err != nil {
 		return false
 	}
 
@@ -17,37 +19,30 @@ func IsInsideWorkTree() bool {
 }
 
 func CurrentIdentity() (*Identity, error) {
-	name, err := exec.Command("git", "config", "user.name").Output()
+	name, err := GetConfig("user.name")
 	if err != nil {
 		return nil, err
 	}
 
-	email, err := exec.Command("git", "config", "user.email").Output()
+	email, err := GetConfig("user.email")
 	if err != nil {
 		return nil, err
 	}
 
 	current := &Identity{}
-	current.Name = strings.TrimSpace(string(name))
-	current.Email = strings.TrimSpace(string(email))
+	current.Name = strings.TrimSpace(name)
+	current.Email = strings.TrimSpace(email)
 
 	return current, nil
 }
 
-func SetIdentity(id *Identity) error {
-	if id.hasName() {
-		if err := exec.Command("git", "config", "--local", "user.name", id.Name).Run(); err != nil {
-			return err
-		}
-	}
+func GetConfig(key string) (string, error) {
+	value, err := exec.Command("git", "config", key).Output()
+	return string(value), err
+}
 
-	if id.hasEmail() {
-		if err := exec.Command("git", "config", "--local", "user.email", id.Email).Run(); err != nil {
-			return err
-		}
-	}
-
-	return nil
+func SetConfig(key string, value string) error {
+	return exec.Command("git", "config", "--local", key, value).Run()
 }
 
 func UpdateIdentity(id *Identity) (bool, error) {
@@ -56,12 +51,20 @@ func UpdateIdentity(id *Identity) (bool, error) {
 		return false, errors.New("Couldn't retrieve identity from Git repository.")
 	}
 
-	if id.notEqual(current) {
-		if err = SetIdentity(id); err != nil {
-			return false, errors.New("Failed setting new identity.")
+	updated := false
+	if id.NameNotEqual(current.Name) {
+		if err := SetConfig("user.name", id.Name); err != nil {
+			return false, errors.New(FAILED_UPDATE_ERR)
 		}
-
-		return true, nil
+		updated = true
 	}
-	return false, nil
+
+	if id.EmailNotEqual(current.Email) {
+		if err := SetConfig("user.email", id.Email); err != nil {
+			return false, errors.New(FAILED_UPDATE_ERR)
+		}
+		updated = true
+	}
+
+	return updated, nil
 }
