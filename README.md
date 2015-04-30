@@ -39,10 +39,15 @@ karn looks for a YAML configuration file in your home directory, `~/.karn.yml`.
 A sample configuration looks like this:
 ```
 ---
-/Fun:
+~/Fun:
   name: Adnan Abdulhussein
   email: adnan@prydoni.us
-/Projects:
+~/Fun/karn:
+  name: Sisterhood of Karn
+  email: sisterhood@karn.io
+/Work:
   name: Adnan A
   email: adnan@bitnami.com
 ```
+
+In a given repo, karn will try to match with the deepest configured directory. For the configuration above, any repo under the `~/Fun` directory will match the first identity, with the exception of `~/Fun/karn` which matches the second identity. If an identity isn't found, the repo is left untouched.
