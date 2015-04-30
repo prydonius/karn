@@ -46,8 +46,14 @@ func GetIdentity(path string, dirs Dirs) (*repo.Identity, error) {
 
 	// Traverse directory -> id map from config
 	for dir, _ := range dirs {
+		// Expand path to include home directory if prefixed with tilde
+		expandedDir, err := homedir.Expand(dir)
+		if err != nil {
+			return nil, err
+		}
+
 		// Expects the path to not have a trailing slash
-		match, err := regexp.MatchString("^"+path+"/?$", dir)
+		match, err := regexp.MatchString("^"+path+"/?$", expandedDir)
 		if err != nil {
 			return nil, err
 		}
