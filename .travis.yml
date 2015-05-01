@@ -4,11 +4,11 @@ before_install:
 before_script:
   - gox -os="darwin linux windows" -arch="386 amd64" -build-toolchain
 script:
-  - gox -os="darwin linux windows" -arch="386 amd64" github.com/sschuberth/karn/cmd/karn
+  - gox -os="darwin linux windows" -arch="386 amd64" github.com/prydonius/karn/cmd/karn
 deploy:
   provider: releases
   api_key:
-    secure: SlzVBhcWR328I2Q8S2LdPvbvDfrP73iDbgyVoIC5Vridw9AKvRxNFQvEYgfE/zwzIj9U/7YV9DcJmWQLmpO3JoUOJkQ+2GY/bu3iodIDYHdZ9So/Ku3tqcmDch8BywUh6cehe072w9HGQdEMmMdYL+NQ4dbGKse3ZUOSZn++/x8=
+    secure: WIp4RiewOScnmYsD8GBrxcT+9BTFmABhk2SQvO7gpddPWgXFsaRl8+CQ/6BKxuE+XIj6VA+zhvnWXZ+SDSPaSNbjTbFSfo81AikWobvxLL2+tzwVuYXsd0sfjwHZIQ4cy43NCQn9ZmCd919CNlULneOtWRj+d2khXKuefZqsSn8=
   file:
     - "karn_darwin_386"
     - "karn_darwin_amd64"

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/sschuberth/karn.svg?branch=master)](https://travis-ci.org/sschuberth/karn)
+[![Build Status](https://travis-ci.org/prydonius/karn.svg?branch=master)](https://travis-ci.org/prydonius/karn)
 
 # karn: Manage multiple Git identities with ease
 
