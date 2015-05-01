@@ -1,0 +1,21 @@
+language: go
+before_install:
+  - go get github.com/mitchellh/gox
+before_script:
+  - gox -os="darwin linux windows" -arch="386 amd64" -build-toolchain
+script:
+  - gox -os="darwin linux windows" -arch="386 amd64" github.com/sschuberth/karn/cmd/karn
+deploy:
+  provider: releases
+  api_key:
+    secure: SlzVBhcWR328I2Q8S2LdPvbvDfrP73iDbgyVoIC5Vridw9AKvRxNFQvEYgfE/zwzIj9U/7YV9DcJmWQLmpO3JoUOJkQ+2GY/bu3iodIDYHdZ9So/Ku3tqcmDch8BywUh6cehe072w9HGQdEMmMdYL+NQ4dbGKse3ZUOSZn++/x8=
+  file:
+    - "karn_darwin_386"
+    - "karn_darwin_amd64"
+    - "karn_linux_386"
+    - "karn_linux_amd64"
+    - "karn_windows_386.exe"
+    - "karn_windows_amd64.exe"
+  skip_cleanup: true
+  on:
+    tags: true

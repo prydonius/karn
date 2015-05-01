@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/sschuberth/karn.svg?branch=master)](https://travis-ci.org/sschuberth/karn)
+
 # karn: Manage multiple Git identities with ease
 
 Setup your Git repositories to always use a specific identity based on the directory tree.
