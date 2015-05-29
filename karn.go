@@ -49,7 +49,7 @@ func Update() {
 func Init() {
 	fmt.Printf(`git() {
   karn update
-  command git $@
+  command git "$@"
 }`)
 }
 
