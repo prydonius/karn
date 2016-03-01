@@ -11,6 +11,12 @@ karn will change your repository's local user.name and user.email configuration 
 
 ## Install
 
+### Homebrew (OS X)
+Install using Homebrew on OS X
+```
+brew install karn
+```
+
 ### Pre-built binary
 Head to the [releases](https://github.com/prydonius/karn/releases) page to download pre-built binaries for OS X. Note that karn is currently only tested on OS X.
 
