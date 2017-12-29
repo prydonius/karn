@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/codegangsta/cli"
 	"github.com/prydonius/karn"
+	"github.com/urfave/cli"
 )
 
 func main() {
