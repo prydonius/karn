@@ -1,8 +1,6 @@
 language: go
 before_install:
   - go get github.com/mitchellh/gox
-before_script:
-  - gox -os="darwin linux windows" -arch="386 amd64" -build-toolchain
 script:
   - gox -os="darwin linux windows" -arch="386 amd64" ./cmd/karn
 deploy:
