@@ -26,6 +26,10 @@ You can install karn using Go with the following command:
 go get github.com/prydonius/karn/cmd/karn
 ```
 
+### Arch Linux
+
+`karn` has a AUR package: <https://aur.archlinux.org/packages/karn/>. You can install it using your [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) of choice.
+
 ## Usage
 karn can be used in two ways!
 
