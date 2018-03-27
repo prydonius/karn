@@ -18,7 +18,7 @@ brew install karn
 ```
 
 ### Pre-built binary
-Head to the [releases](https://github.com/prydonius/karn/releases) page to download pre-built binaries for OS X. Note that karn is currently only tested on OS X.
+Head to the [releases](https://github.com/prydonius/karn/releases) page to download pre-built binaries for OS X/Linux/Windows.
 
 ### Go
 You can install karn using Go with the following command:
