@@ -42,6 +42,11 @@ If you're okay with the scary warnings above, add the following line to your she
 if which karn > /dev/null; then eval "$(karn init)"; fi
 ```
 
+If you run on [fish](https://fishshell.com/) you can put this line in your config.fish
+```
+alias git="karn update; command git $argv"
+```
+
 ### Run manually when you want to update
 Alternatively, you can run `karn update` manually in a Git repository whenever you need to update your identity for that repository.
 
