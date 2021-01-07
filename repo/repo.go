@@ -29,9 +29,15 @@ func CurrentIdentity() (*Identity, error) {
 		return nil, err
 	}
 
+	signingKey, err := GetConfig("user.signingkey")
+	if err != nil {
+		return nil, err
+	}
+
 	current := &Identity{}
 	current.Name = strings.TrimSpace(name)
 	current.Email = strings.TrimSpace(email)
+	current.SigningKey = strings.TrimSpace(signingKey)
 
 	return current, nil
 }
@@ -61,6 +67,13 @@ func UpdateIdentity(id *Identity) (bool, error) {
 
 	if id.EmailNotEqual(current.Email) {
 		if err := SetConfig("user.email", id.Email); err != nil {
+			return false, errors.New(FAILED_UPDATE_ERR)
+		}
+		updated = true
+	}
+
+	if id.SigningKeyNotEqual(current.SigningKey) {
+		if err := SetConfig("user.signingkey", id.SigningKey); err != nil {
 			return false, errors.New(FAILED_UPDATE_ERR)
 		}
 		updated = true
