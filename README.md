@@ -65,6 +65,7 @@ A sample configuration looks like this:
 /Work:
   name: Adnan A
   email: adnan@bitnami.com
+  signingKey: 3AA5C34371567BD2
 ```
 
 In a given repo, karn will try to match with the deepest configured directory. For the configuration above, any repo under the `~/Fun` directory will match the first identity, with the exception of `~/Fun/karn` which matches the second identity. If an identity isn't found, the repo is left untouched.
