@@ -15,7 +15,7 @@ func main() {
 	app.Usage = "manage multiple Git identities"
 	app.Author = "Adnan Abdulhussein"
 	app.Email = "adnan@prydoni.us"
-	app.Version = "0.0.4"
+	app.Version = "0.0.5"
 	app.Commands = commands()
 	app.Run(os.Args)
 }
