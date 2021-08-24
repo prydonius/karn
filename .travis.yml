@@ -1,13 +1,20 @@
 language: go
+
+go:
+  - "1.16.x"
+  - tip
+
 before_install:
-- go get github.com/mitchellh/gox
+  - go get github.com/mitchellh/gox
+
 script:
-- gox -os="darwin linux windows" -arch="386 amd64" ./cmd/karn
+  - gox -os="darwin linux windows" -arch="386 amd64" ./cmd/karn
+
 deploy:
   provider: releases
   api_key:
     secure: n+h6oZwDd+ItugmUdRoTtJPzHoFpk4EGoJBke8QauyVBS9QWZDSTZoKksBkN1uAo5eMc9YZizB2+4pWlUD1SJ63BixYwqnPrBO1yRGBhg4KmOHLSOPJ76tISDEab0R6JhaNs4+eEM+1l7LVrTqrIl/go5fku/474iBbtPYxOQXo=
-  file: 
+  file:
   - "karn_darwin_386"
   - "karn_darwin_amd64"
   - "karn_linux_386"
